@@ -8,8 +8,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
 
-_G.PIRT = "UpperTorso"
-_G.PART = _G.PIRT
+_G.PART = "HumanoidRootPart"
 _G.PRED = 0.1301230
 
 

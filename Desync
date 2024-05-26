@@ -47,6 +47,12 @@ RS.Heartbeat:Connect(function()
 	end
 end)
 
+RS.Heartbeat:Connect(function()
+     if t == true then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * 1.750
+     end
+end)
+
 local wtfhum = nil
 wtfhum = hookmetamethod(game, "__index", newcclosure(function(xm, key)
 	if t == true then

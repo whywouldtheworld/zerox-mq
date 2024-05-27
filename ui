@@ -1436,4 +1436,21 @@ function lib:MainWindow(text)
 
 	return window
 end
-return lib
+return liblib
+
+libhere = false
+UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(Input)
+if Input.KeyCode == Enum.KeyCode[getgenv().KeyCode] then
+if libhere  == false then
+libhere = true
+game.CoreGui:FindFirstChild("helioslib").Parent = game.NetworkClient
+else
+game.NetworkClient:FindFirstChild("helioslib").Parent = game.CoreGui
+libhere = false 
+end
+end
+end)
+
+
+

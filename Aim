@@ -8,8 +8,6 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
 
-_G.PART = "HumanoidRootPart"
-_G.PRED = 0.1301230
 
 
 UserInputService = game:GetService("UserInputService")

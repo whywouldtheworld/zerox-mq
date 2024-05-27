@@ -8,7 +8,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
 _G.PRED = 0.1301230
-
+_G.PART = "UpperTorso"
 
 UserInputService = game:GetService("UserInputService")
 local CC = game:GetService "Workspace".CurrentCamera

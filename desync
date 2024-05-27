@@ -1,0 +1,70 @@
+local notif = loadstring(game:HttpGet("https://raw.githubusercontent.com/insanedude59/notiflib/main/main"))()
+local key = "DPadLeft"
+checkcaller = checkcaller
+newcclosure = newcclosure
+hookmetamethod = hookmetamethod
+
+local t = false
+local RS = game:GetService("RunService")
+local lp = game:GetService("Players").LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(Input)
+if Input.KeyCode == Enum.KeyCode[key] then
+		pcall(function()
+			if t == false then
+				t = true
+				   notif:Notification("Status","Enabled","GothamSemibold","Gotham",1)
+			elseif t == true then
+				t = false
+			   notif:Notification("Status","Disabled","GothamSemibold","Gotham",1)
+			end
+		end)
+	end
+end)
+
+function rnr(a)
+	return math.random(-a * 100, a * 100) / 100
+end
+
+function rvr(a, b, c)
+	return Vector3.new(rnr(a), rnr(b), rnr(c))
+end
+
+local dt = {}
+RS.Heartbeat:Connect(function()
+	if t == true then
+		dt[1] = lp.Character.HumanoidRootPart.CFrame
+		dt[2] = lp.Character.HumanoidRootPart.AssemblyLinearVelocity
+		local humcframe = lp.Character.HumanoidRootPart.CFrame
+		humcframe = humcframe * CFrame.new(Vector3.new(0, 0, 0))
+		humcframe = humcframe * CFrame.Angles(math.rad(rnr(180)), math.rad(rnr(180)), math.rad(rnr(180)))
+		lp.Character.HumanoidRootPart.CFrame = humcframe
+		lp.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(1, 1, 1) * 15828
+		RS.RenderStepped:Wait()
+		lp.Character.HumanoidRootPart.CFrame = dt[1]
+		lp.Character.HumanoidRootPart.AssemblyLinearVelocity = dt[2]
+	end
+end)
+
+RS.Heartbeat:Connect(function()
+     if t == true then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * multip
+     end
+end)
+
+local wtfhum = nil
+wtfhum = hookmetamethod(game, "__index", newcclosure(function(xm, key)
+	if t == true then
+		if not checkcaller() then
+			if key == "CFrame" and t == true and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") and lp.Character:FindFirstChild("Humanoid") and lp.Character:FindFirstChild("Humanoid").Health > 0 then
+				if xm == lp.Character.HumanoidRootPart then
+					return dt[1] or CFrame.new()
+				elseif xm == lp.Character.Head then
+					return dt[1] and dt[1] + Vector3.new(0, lp.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
+				end
+			end
+		end
+	end
+	return wtfhum(xm, key)
+end))

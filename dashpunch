@@ -1,0 +1,55 @@
+local CC = workspace.CurrentCamera
+local mouse = game.Players.LocalPlayer:GetMouse()
+local enabled = false
+
+function getClosestPlayerToCursor()
+    local closestPlayer
+    local shortestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if
+            v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and
+                v.Character.Humanoid.Health ~= 0 and
+                v.Character:FindFirstChild("HumanoidRootPart")
+         then
+            local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
+            if magnitude < shortestDistance then
+                closestPlayer = v
+                shortestDistance = magnitude
+            end
+        end
+    end
+    return closestPlayer
+end
+
+function dashtrg()
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = "dash punch"
+tool.Activated:connect(function()
+            Plr = getClosestPlayerToCursor()
+            if workspace.Players[Plr.Name].BodyEffects:FindFirstChild("K.O").Value ~= true then
+game.Players.LocalPlayer.Backpack.Combat.Parent = game.Players.LocalPlayer.Character
+local args = {
+    [1] = "ChargeButton"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("MainEvent"):FireServer(unpack(args))
+wait(1.950)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Plr.Character.HumanoidRootPart.Position + (Plr.Character.HumanoidRootPart.Velocity * accf)) wait()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position, Plr.Character.HumanoidRootPart.Position)
+end
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+end
+
+dashtrg()
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+   dashtrg()
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+      accf = tostring(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()):split(" ")[1] / 720
+end)

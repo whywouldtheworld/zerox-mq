@@ -8,7 +8,6 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
 _G.PRED = 0.1301230
-_G.PART = "UpperTorso"
 
 UserInputService = game:GetService("UserInputService")
 local CC = game:GetService "Workspace".CurrentCamera
@@ -150,7 +149,7 @@ mt.__namecall =
     newcclosure(
     function(...)
         local args = {...}
-        if enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos1" then
+        if enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePosI" then
             args[3] = Plr.Character[_G.PART].Position + (Plr.Character[_G.PART].Velocity * accomidationfactor)
             return old(unpack(args))
         end

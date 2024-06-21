@@ -1,0 +1,76 @@
+getgenv().FreeCameraLoaded = false
+
+local Camera = workspace.CurrentCamera
+local camspeed = 1
+
+Camera.CameraType = Enum.CameraType.Scriptable
+game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+
+local rs1 = game:GetService("RunService").RenderStepped:Connect(function()
+            local direction = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule")):GetMoveVector()
+			if direction.X > 0 then
+				Camera.CFrame = Camera.CFrame  + workspace.Camera.CFrame.RightVector * (direction.X * ((camspeed)))
+			end
+			if direction.X < 0 then
+				Camera.CFrame = Camera.CFrame + workspace.Camera.CFrame.RightVector * (direction.X * ((camspeed)))
+			end
+			if direction.Z > 0 then
+				Camera.CFrame = Camera.CFrame - workspace.Camera.CFrame.LookVector * (direction.Z * ((camspeed)))
+			end
+			if direction.Z < 0 then
+				Camera.CFrame = Camera.CFrame - workspace.Camera.CFrame.LookVector * (direction.Z * ((camspeed)))
+			end
+end)
+
+local uis1 = game:GetService("UserInputService").InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton2 or
+        (Input.UserInputType == Enum.UserInputType.Touch and game:GetService("UserInputService"):GetMouseLocation().X > (Camera.ViewportSize.X / 2)) then
+        rot = true
+    end
+end)
+
+local uis2 = game:GetService("UserInputService").InputEnded:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton2 or
+        (Input.UserInputType == Enum.UserInputType.Touch and game:GetService("UserInputService"):GetMouseLocation().X > (Camera.ViewportSize.X / 2)) then
+        rot = false
+    end
+end)
+
+local rs2 = game:GetService("RunService").RenderStepped:Connect(renderStepped)
+
+DiedFunc = game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
+ Camera.CameraType = Enum.CameraType.Custom
+ rs1:Disconnect()
+ uis1:Disconnect()
+ rs2:Disconnect()
+ uis2:Disconnect()
+ DiedFunc:Disconnect()
+end)
+
+if getgenv().FreeCameraLoaded == true then
+return
+else
+function renderStepped()
+    if rot == true then
+        local delta = game:GetService("UserInputService"):GetMouseDelta()
+        local cf = Camera.CFrame
+        local yAngle = cf:ToEulerAngles(Enum.RotationOrder.YZX)
+        local newAmount = math.deg(yAngle)+delta.Y
+        if newAmount > 65 or newAmount < -65 then
+            if not (yAngle<0 and delta.Y<0) and not (yAngle>0 and delta.Y>0) then
+                delta = Vector2.new(delta.X,0)
+            end
+        end
+        cf *= CFrame.Angles(-math.rad(delta.Y),0,0)
+        cf = CFrame.Angles(0,-math.rad(delta.X),0) * (cf - cf.Position) + cf.Position
+        cf = CFrame.lookAt(cf.Position, cf.Position + cf.LookVector)
+        if delta ~= Vector2.new(0,0) then Camera.CFrame = Camera.CFrame:Lerp(cf,0.6) end
+        game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.LockCurrentPosition
+    else
+        game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
+    end
+    end
+    local rs2 = game:GetService("RunService").RenderStepped:Connect(renderStepped)
+end
+
+getgenv().FreeCameraLoaded = true

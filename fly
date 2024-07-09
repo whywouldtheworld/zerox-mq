@@ -1,71 +1,193 @@
-    function fly()
-    local controlModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"))
-	local bv = Instance.new("BodyVelocity")
-	bv.Name = "mhm"
-	bv.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-	bv.MaxForce = Vector3.new(0, 0, 0)
-	bv.Velocity = Vector3.new(0, 0, 0)
+if game:FindFirstChild("nomore") then
+game.StarterGui:SetCore("SendNotification", {Title = "??"; Text = "already runned"; Duration = 1;})
+return
+else
+local folder = Instance.new("Folder")
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local Frame = Instance.new("Frame", ScreenGui)
 
-	local bg = Instance.new("BodyGyro")
-	bg.Name = "ghn"
-	bg.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-	bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-	bg.P = 1000
-	bg.D = 50
+local UIS = game:GetService("UserInputService")
+local frame = game.CoreGui.ScreenGui.Frame
+local dragToggle = nil
+local dragSpeed = 0.25
+local dragStart = nil
+local startPos = nil
 
-	    game.Players.LocalPlayer.CharacterAdded:Connect(function()
-		local bv = Instance.new("BodyVelocity")
-		bv.Name = "mhm"
-		bv.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-		bv.MaxForce = Vector3.new(0, 0, 0)
-		bv.Velocity = Vector3.new(0, 0, 0)
+folder.Name = "nomore"
+folder.Parent = game
 
-		local bg = Instance.new("BodyGyro")
-		bg.Name = "ghn"
-		bg.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-		bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-		bg.P = 1000
-		bg.D = 50
-	end)
+flightenabled = false
+flightspeed = 1
+function fly()
+      local controlModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"))
+  	local BodyVelocity = Instance.new("BodyVelocity")
+  	BodyVelocity.Name = "mhm"
+  	BodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+  	BodyVelocity.MaxForce = Vector3.new(0, 0, 0)
+  	BodyVelocity.Velocity = Vector3.new(0, 0, 0)
 
-	rs1 = game:GetService("RunService").RenderStepped:Connect(function()
-		if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid") and game.Players.LocalPlayer.Character.HumanoidRootPart and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("mhm") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("ghn") then
+  	local BodyGyro = Instance.new("BodyGyro")
+  	BodyGyro.Name = "ghn"
+	  BodyGyro.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+	  BodyGyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+  	BodyGyro.P = 1000
+  	BodyGyro.D = 20
+
+            local rs1 = game:GetService("RunService").RenderStepped:Connect(function()
+	    	if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid") and game.Players.LocalPlayer.Character.HumanoidRootPart and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("mhm") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("ghn") then
 			local humanoid = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid")
 			local VelocityHandler = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("mhm")
 			local GyroHandler = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("ghn")
 
 			VelocityHandler.MaxForce = Vector3.new(9e9, 9e9, 9e9)
 			GyroHandler.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-			humanoid.PlatformStand = true
 			GyroHandler.CFrame = workspace.Camera.CoordinateFrame
 			VelocityHandler.Velocity = Vector3.new()
 
 			local direction = controlModule:GetMoveVector()
 			if direction.X > 0 then
-				VelocityHandler.Velocity = VelocityHandler.Velocity + workspace.Camera.CFrame.RightVector * (direction.X * ((5) * 50))
+				VelocityHandler.Velocity = VelocityHandler.Velocity + workspace.Camera.CFrame.RightVector * (direction.X * ((flightspeed) * 50))
 			end
 			if direction.X < 0 then
-				VelocityHandler.Velocity = VelocityHandler.Velocity + workspace.Camera.CFrame.RightVector * (direction.X * ((5) * 50))
+				VelocityHandler.Velocity = VelocityHandler.Velocity + workspace.Camera.CFrame.RightVector * (direction.X * ((flightspeed) * 50))
 			end
 			if direction.Z > 0 then
-				VelocityHandler.Velocity = VelocityHandler.Velocity - workspace.Camera.CFrame.LookVector * (direction.Z * ((5) * 50))
+				VelocityHandler.Velocity = VelocityHandler.Velocity - workspace.Camera.CFrame.LookVector * (direction.Z * ((flightspeed) * 50))
 			end
 			if direction.Z < 0 then
-				VelocityHandler.Velocity = VelocityHandler.Velocity - workspace.Camera.CFrame.LookVector * (direction.Z * ((5) * 50))
+				VelocityHandler.Velocity = VelocityHandler.Velocity - workspace.Camera.CFrame.LookVector * (direction.Z * ((flightspeed) * 50))
 			end
-		end
-	end)
+	    	end
+	        end)
 end
 
 function unfly()
 		game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("mhm"):Destroy()
 		game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("ghn"):Destroy()
-		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").PlatformStand = false
 		rs1:Disconnect()
 end
 
-fly()
+--|| Instances ||
 
-diedf = game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
-unfly()
+local TextBtn1 = Instance.new("TextButton", Frame)
+local TextBtn2 = Instance.new("TextButton", Frame)
+local TextBtn3 = Instance.new("TextButton", Frame)
+local UICorner = Instance.new("UICorner", Frame)
+local UICorner1 = Instance.new("UICorner", TextBtn1)
+local UICorner2 = Instance.new("UICorner", TextBtn2)
+local UICorner3 = Instance.new("UICorner", TextBtn3)
+
+--|| Corner Radius ||
+
+UICorner.CornerRadius = UDim.new(0.2,0)
+UICorner1.CornerRadius = UDim.new(0.8,0)
+UICorner2.CornerRadius = UDim.new(0.8,0)
+UICorner3.CornerRadius = UDim.new(0.8,0)
+
+--|| Text Size ||
+
+TextBtn1.TextSize = "17"
+TextBtn2.TextSize = "15"
+TextBtn3.TextSize = "16"
+
+--|| Text ||
+
+TextBtn1.Text = "fly"
+TextBtn2.Text = "speed +"
+TextBtn3.Text = "speed -"
+
+--|| Text Font ||
+
+TextBtn1.Font = Enum.Font.SciFi
+TextBtn2.Font = Enum.Font.SciFi
+TextBtn3.Font = Enum.Font.SciFi
+
+--|| Background Transparency ||
+
+Frame.BackgroundTransparency = 0.5
+TextBtn1.BackgroundTransparency = 0.5
+TextBtn2.BackgroundTransparency = 0.5
+TextBtn3.BackgroundTransparency = 0.5
+
+--|| Position ||
+
+Frame.Position = UDim2.new(0,0,0,0)
+TextBtn1.Position = UDim2.new(0.013, 0, 0.055, 0)
+TextBtn2.Position = UDim2.new(0.013, 0, 0.300, 0)
+TextBtn3.Position = UDim2.new(0.013, 0, 0.550, 0)
+
+--|| Background Color ||
+
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBtn1.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+TextBtn2.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+TextBtn3.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+
+--|| Size ||
+
+Frame.Size = UDim2.new(0, 58, 0, 120)
+TextBtn1.Size = UDim2.new(0, 55, 0, 25)
+TextBtn2.Size = UDim2.new(0, 55, 0, 25)
+TextBtn3.Size = UDim2.new(0, 55, 0, 25)
+
+--|| Button Functions ||
+
+TextBtn1.MouseButton1Click:Connect(function()
+  if flightenabled == false then
+  flightenabled = true
+  TextBtn1.Text = "unfly"
+  fly()
+  else
+  flightenabled = false
+  TextBtn1.Text = "fly"
+  unfly()
+  end
 end)
+
+TextBtn2.MouseButton1Click:Connect(function()
+  flightspeed = flightspeed + 1
+  TextBtn2.Text = flightspeed wait(0.5)
+  TextBtn2.Text = "speed +"
+end)
+
+TextBtn3.MouseButton1Click:Connect(function()
+ if flightspeed == 0 then
+ TextBtn3.Text = "min. - 0" wait(0.5)
+ TextBtn3.Text = "speed -"
+  return
+  end
+  flightspeed = flightspeed - 1
+  TextBtn3.Text = flightspeed wait(0.5)
+  TextBtn3.Text = "speed -"
+end)
+
+--|| Drag Function ||
+
+local function updateInput(input)
+ local delta = input.Position - dragStart
+ local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+  startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+ game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+end
+
+frame.InputBegan:Connect(function(input)
+ if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+  dragToggle = true
+  dragStart = input.Position
+  startPos = frame.Position
+  input.Changed:Connect(function()
+   if input.UserInputState == Enum.UserInputState.End then
+    dragToggle = false
+   end
+  end)
+ end
+end)
+
+UIS.InputChanged:Connect(function(input)
+ if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+  if dragToggle then
+   updateInput(input)
+  end
+ end
+end)
+end

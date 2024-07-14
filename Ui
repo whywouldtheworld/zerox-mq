@@ -169,16 +169,8 @@ function initLibrary()
     local coloredGradients = {}
 
 
-    function library:SetColor(color)
-        for _, obj in next, coloredGradients do
-            obj.Color = ColorSequence.new{
-                ColorSequenceKeypoint.new(0, color),
-                ColorSequenceKeypoint.new(1, utility.change_color(color, -49))
-            }
-        end
-
-
-        library.color = color
+    function SetColor(color)
+     library.color = color
     end
     
    function setkey(key)

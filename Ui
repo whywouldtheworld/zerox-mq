@@ -180,7 +180,10 @@ function initLibrary()
 
         library.color = color
     end
-
+    
+   function setkey(key)
+     library.keybind = Enum.KeyCode[key]
+   end
 
     local gui = utility.create("ScreenGui")
 
@@ -191,10 +194,6 @@ function initLibrary()
             gui.Enabled = library.toggled
         end
     end)
-
-   function setkey(key)
-     library.keybind = Enum.KeyCode[key]
-   end
    
     if syn and syn.protect_gui then
         syn.protect_gui(gui)

@@ -193,7 +193,7 @@ function initLibrary()
     end)
 
    function lib:setkey(key)
-     library.keybind = key
+     library.keybind = Enum.KeyCode[key]
    end
    
     if syn and syn.protect_gui then

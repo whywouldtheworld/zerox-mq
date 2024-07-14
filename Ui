@@ -2771,9 +2771,6 @@ function initLibrary()
                     end
 
 
-                    callback(default)
-
-
                     local colorPickerHolder = utility.create("Frame", {
                         Size = UDim2.new(1, 0, 0, 16),
                         Position = UDim2.new(0, 0, 0, 0),
@@ -2980,7 +2977,7 @@ function initLibrary()
 
 
                     hueFrame.InputBegan:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
                             slidingHue = true
                             updateHue(input)
                         end
@@ -2988,14 +2985,14 @@ function initLibrary()
 
 
                     hueFrame.InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
                             slidingHue = false
                         end
                     end)
 
 
                     inputService.InputChanged:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseMovement then
+                        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then   
                             if slidingHue then
                                 updateHue(input)
                             end

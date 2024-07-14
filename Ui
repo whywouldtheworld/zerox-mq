@@ -168,14 +168,6 @@ function initLibrary()
 
 
     function library:SetColor(color)
-        for _, obj in next, coloredGradients do
-            obj.Color = ColorSequence.new{
-                ColorSequenceKeypoint.new(0, color),
-                ColorSequenceKeypoint.new(1, utility.change_color(color, -49))
-            }
-        end
-
-
         library.color = color
     end
 
@@ -330,9 +322,9 @@ function initLibrary()
         local color = options.color or Color3.fromRGB(255, 255, 255)
         local dragSpeed = options.dragSpeed or 0
 
-while wait() do
-        library.color = Color3.fromHSV(tick()%5/5,1,1)
-end
+
+        library.color = color
+
 
         local topbar = utility.create("Frame", {
             ZIndex = 2,

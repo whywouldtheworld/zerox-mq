@@ -108,7 +108,7 @@ function initLibrary()
 
 
         inputService.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and dragging then   
+            if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then   
                 utility.tween(obj, {dragSpeed}, {Position = UDim2.new(objPosition.X.Scale, objPosition.X.Offset + (input.Position - start).X, objPosition.Y.Scale, objPosition.Y.Offset + (input.Position - start).Y)})
             end
         end)

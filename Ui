@@ -161,8 +161,8 @@ function initLibrary()
         flags = {}, 
         toggled = true,
         color = Color3.fromRGB(255, 0, 0),
-        keybind = Enum.KeyCode.RightShift, 
-        dragSpeed = 0.1
+        keybind = Enum.KeyCode.ButtonY, 
+        dragSpeed = 0.25
     }    
 
 
@@ -192,7 +192,10 @@ function initLibrary()
         end
     end)
 
-
+   function lib:setkey(key)
+     library.keybind = key
+   end
+   
     if syn and syn.protect_gui then
         syn.protect_gui(gui)
     end

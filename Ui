@@ -192,7 +192,7 @@ function initLibrary()
         end
     end)
 
-   function lib:setkey(key)
+   function setkey(key)
      library.keybind = Enum.KeyCode[key]
    end
    

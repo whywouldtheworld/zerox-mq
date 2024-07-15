@@ -5,13 +5,6 @@ Special Thanks To: Qw#1549
 --]]
 function initLibrary()
     local folderName = "zerox config holder"
-
-
-    if not isfolder(folderName) then
-        makefolder(folderName)
-    end
-
-
     local gameConfigFolder = "cfgs"
 
 

@@ -4,7 +4,7 @@ Yun Devs: zomb#7741, nives#0001, loot#1337
 Special Thanks To: Qw#1549
 --]]
 function initLibrary()
-    local folderName = "epic config folder"
+    local folderName = "zerox config holder"
 
 
     if not isfolder(folderName) then
@@ -12,7 +12,7 @@ function initLibrary()
     end
 
 
-    local gameConfigFolder = folderName .. "/" .. game.PlaceId
+    local gameConfigFolder = "cfgs"
 
 
     if not isfolder(gameConfigFolder) then

@@ -169,11 +169,11 @@ function initLibrary()
     local coloredGradients = {}
 
 
-    function SetColor(color)
+    function library:SetColor(color)
      library.color = color
     end
     
-   function setkey(key)
+   function library:SetKey(key)
      library.keybind = Enum.KeyCode[key]
    end
 

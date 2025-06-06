@@ -3,6 +3,8 @@ Yun Founders: flash#9999, loris#9547, worldwide#0001 , Saul Goodman#2345
 Yun Devs: zomb#7741, nives#0001, loot#1337
 Special Thanks To: Qw#1549
 --]]
+
+
 function initLibrary()
     local folderName = "zerox config holder"
     local gameConfigFolder = "cfgs"
@@ -768,7 +770,75 @@ function initLibrary()
                     
                     return buttonTypes
                 end
+                
+                function sectionTypes:BigButton(opts)
+                    local options = utility.table(opts)
+                    local name = options.name
+                    local callback = options.callback
+                    
 
+                    local button = utility.create("TextButton", {
+                        ZIndex = 3,
+                        Size = UDim2.new(1, 0, 0, 60),
+                        BorderColor3 = Color3.fromRGB(22, 22, 22),
+                        Font = Enum.Font.Gotham,
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        Text = "",
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = sectionContent
+                    })
+                    
+                    utility.create("UIGradient", {
+                        Rotation = 90,
+                        Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(32, 32, 32)), 
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(17, 17, 17))
+                        },
+                        Parent = button
+                    })
+                    
+                    local title = utility.create("TextLabel", {
+                        ZIndex = 4,
+                        Size = UDim2.new(0, 0, 1, 0),
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(0, 8, 0, 0),
+                        FontSize = Enum.FontSize.Size14,
+                        TextSize = 13,
+                        TextColor3 = Color3.fromRGB(255, 255, 255),
+                        Text = name,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = button
+                    })
+
+
+                    local buttonTypes = utility.table()
+
+
+                    button.MouseButton1Click:Connect(function()
+                        callback(buttonTypes)
+                    end)
+
+
+                    function buttonTypes:Show()
+                        button.Visible = true
+                    end
+                    
+                    function buttonTypes:Hide()
+                        button.Visible = false
+                    end
+                    
+                    function buttonTypes:SetName(str)
+                        title.Text = str
+                    end
+
+
+                    function buttonTypes:SetCallback(func)
+                        callback = func
+                    end
+                    
+                    return buttonTypes
+                end
 
                 function sectionTypes:Toggle(opts)
                     local options = utility.table(opts)
@@ -2040,8 +2110,16 @@ function initLibrary()
                             end
                         end)
                     end
-
-
+                    
+                    function dropdownTypes:Clear()
+                      for i,v in pairs (content) do
+                        if contentHolder:FindFirstChild(v) then
+                          contentHolder:FindFirstChild(v):Destroy()
+                          content[i] = nil
+                        end
+                      end
+                    end
+                    
                     function dropdownTypes:Remove(opt)
                         if table.find(content, opt) then
                             if not multiChoice then
@@ -2189,6 +2267,18 @@ function initLibrary()
 
 
                     local keys = {
+                        [Enum.KeyCode.DPadRight] = "DPad Right";
+                        [Enum.KeyCode.DPadLeft] = "DPad Left";
+                        [Enum.KeyCode.DPadUp] = "DPad Up";
+                        [Enum.KeyCode.DPadDown] = "DPad Down";
+                        [Enum.KeyCode.ButtonR1] = "R1";
+                        [Enum.KeyCode.ButtonR2] = "R2";
+                        [Enum.KeyCode.ButtonL1] = "L1";
+                        [Enum.KeyCode.ButtonL2] = "L2";
+                        [Enum.KeyCode.ButtonA] = "Button A";
+                        [Enum.KeyCode.ButtonB] = "Button B";
+                        [Enum.KeyCode.ButtonY] = "Button Y";
+                        [Enum.KeyCode.ButtonX] = "Button X";
                         [Enum.KeyCode.LeftShift] = "Left Shift";
                         [Enum.KeyCode.RightShift] = "Right Shift";
                         [Enum.KeyCode.LeftControl] = "Left Ctrl";
